@@ -139,3 +139,6 @@ $RECYCLE.BIN/
 *.lnk
 tg_token.py
 *.sqlite
+functionalDesign.txt
+test_new_code/
+tg_bot_test.py
