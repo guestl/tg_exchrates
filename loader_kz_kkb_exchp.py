@@ -143,7 +143,7 @@ class Loader_KZ_KKB_Excghp(loader_default):
 
 		return_list = []
 
-		cur_list = self.database.get_currency_list(self.loader_name)
+		cur_list = self.get_currency_list()
 
 		logger.info(cur_list)
 

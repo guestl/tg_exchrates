@@ -20,6 +20,21 @@ class loader_default:
 	def loadDailyData(self, dateForLoad):
 		pass
 
+	@abstractmethod
+	# empty method
+	def set_currency_list(self, currency_list):
+		pass
+
+	def get_currency_list(self):
+		return self.database.get_currency_list(self.loader_name)
+
+	def get_domain(self):
+		return self.database.get_domain(self.loader_name)
+
+	def get_domains_history(self):
+		return self.database.get_domains_history()
+
+	#TODO: переделать. убрать scr_id, он и так у нас уже есть
 	def update_loader_log(self, src_id):
 		self.database.update_loader_log(src_id)	
 

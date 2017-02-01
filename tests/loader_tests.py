@@ -77,5 +77,16 @@ class Test_Loader:
 		'KZT', 'USD', 1], ['KZ_ALFA', 347.5, 351.5, 0, datetime.datetime(2017, 1, 30, 0, 0), 'KZT', 'EUR', 1], ['KZ_ALFA', 5.38, 5.46, 0, 
 		datetime.datetime(2017, 1, 30, 0, 0), 'KZT', 'RUB', 1]]
 
+	def test_getting_currency_list_as_separate_function(self):
+		currency_list = ['EUR', 'USD', 'RUB', 'CHF', 'GBP', 'KGS'] 
+		loaded_currency_list = self.kz_nb_ldr.get_currency_list()
+		assert set(loaded_currency_list) == set(currency_list)
+
+	def test_getting_source_domain_as_separate_function(self):
+		domain = 'nb.kz' 
+		loaded_domain = self.kz_nb_ldr.get_domain()
+		assert loaded_domain == domain
+
+
 if __name__ == '__main__':
     nose.main()

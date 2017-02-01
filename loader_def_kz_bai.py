@@ -78,7 +78,7 @@ class Loader_def_KZ_bai(loader_default):
 		return_list = []
 		currency_dict = {}
 
-		cur_list = self.database.get_currency_list(self.loader_name)
+		cur_list = self.get_currency_list()
 
 #		logger.info(cur_list)
 

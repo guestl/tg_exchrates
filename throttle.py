@@ -5,6 +5,7 @@ import sqlite3
 
 import config
 
+from loader_def_class import loader_default
 
 import logging
 
@@ -14,33 +15,20 @@ logger.setLevel(logging.ERROR)
 class Throttle:
 	"""Add a delay between downloads to the same domain
 	"""
+
 	def __init__(self, delay):
 		self.delay = delay
-		self.connection = sqlite3.connect(config.dbname)
-		self.cursor = self.connection.cursor()
 
-		self.domains = {}
-		#TODO: try
-		sql_text = 'SELECT rs.DOMAIN, lg.LOAD_DATETIME ' \
-						'from rates_sources rs, log_load lg ' \
-						'where lg.SRC_ID = rs.ID and ' \
-						'rs.ACTIVE = "True" '\
-						'group by rs.DOMAIN'
-		self.cursor.execute(sql_text)
-		for row in self.cursor:
-			self.domains[row[0]] = datetime.datetime.strptime(row[1], '%Y-%m-%d %H:%M:%S')
-#			self.domains[row[0]] = datetime.datetime.fromtimestamp(row[1])
+		# it is not well solution, I agree
+		self.ldr_default = loader_default('')
+
+		self.domains = self.ldr_default.get_domains_history()
+
 		logger.info(self.domains)	
 
 
-	def wait(self, src_id):
-		logger.info("we are in wait function for scr_id = " + src_id)
-
-		sql_text = 'SELECT rs.DOMAIN from rates_sources rs where rs.ID = ? group by rs.DOMAIN' 
-		self.cursor.execute(sql_text, (src_id,))
-
-		for row in self.cursor:
-			domain = row[0]
+	def wait(self, domain):
+		logger.info("we are in wait function for scr_id = " + domain)
 
 		logger.info("Domain is " + domain)	
 

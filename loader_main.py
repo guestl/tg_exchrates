@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+# run me as python loader_main.py -d (Get-Date -Year 2017 -Month 01 -Day 11 -UFormat "%d/%m/%Y")
+
 # helper for work with database
 import config
 from throttle import Throttle
@@ -70,7 +72,7 @@ for ldr in loaders_list:
 
 	if parsedData:
 		ldr.saveRatesData(parsedData)
-	throttle.wait(ldr.loader_name)
+	throttle.wait(ldr.get_domain())
 
 #loc = localizator("en-us")
 

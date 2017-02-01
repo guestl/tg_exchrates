@@ -79,7 +79,7 @@ class Loader_KZ_NB(loader_default):
 		cur_id_to = ''
 		quant = 0
 
-		cur_list = self.database.get_currency_list(self.loader_name)
+		cur_list = self.get_currency_list()
 
 		logger.info(cur_list)
 
