@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(0037)http://www.kkb.kz/rates/RatesExch.jsp -->
+<html class="gr__kkb_kz"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link href="./exch rates_files/screen.css" rel="stylesheet" type="text/css">
+
+<script src="./exch rates_files/jquery-1.11.2.min.js.Без названия"></script>
+<script src="./exch rates_files/jquery-ui.min.js.Без названия"></script>
+<script src="./exch rates_files/dropkick.min.js.Без названия"></script>
+<title>exch rates</title>
+
+
+ <script>
+ 
+ jQuery(function ($) {
+     $.datepicker.regional['ru'] = {
+         prevText: '&#x3c;&#x3c;',
+         nextText: '&#x3e;&#x3e',
+         monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+         'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+         dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+         dateFormat: 'dd.mm.yy',
+         firstDay: 1
+     };
+     $.datepicker.setDefaults($.datepicker.regional['ru']);
+ });
+
+ 
+
+
+$( function() {
+$( "#datepicker" ).datepicker({
+    inline: true,
+    language: 'ru'
+});
+$( ".datepicker" ).datepicker({
+    inline: true,
+    language: 'ru'
+});
+});
+</script>
+
+</head>
+<body data-gr-c-s-loaded="true" data-pinterest-extension-installed="cr2.0.5"><div id="StayFocusd-infobar" style="display: none; top: 0px;">
+    <img src="chrome-extension://laankejkbhbdhmipfmgcngdelahlfoji/common/img/eye_19x19_red.png">
+    <span id="StayFocusd-infobar-msg"></span>
+    <span id="StayFocusd-infobar-links">
+        <a id="StayFocusd-infobar-never-show">скрыть навсегда</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <a id="StayFocusd-infobar-hide">скрыть только сейчас</a>
+    </span>
+</div>
+
+<br><div align="center"><table style="width: 80%"><tbody><tr><td><form method="POST" name="form2"><input type="hidden" name="date" value="24.01.2017">&nbsp;<input type="submit" name="submit2" value="&lt;&lt;"></form></td><td align="middle" nowrap=""><form method="POST" name="form1"><input type="text" class="date  hasDatepicker" id="datepicker" name="date" value="25.01.2017" size="12" maxlength="10"><div><input type="submit" name="submit1" value="OK"></div></form></td><td align="left"><form name="form3" method="POST"><input type="hidden" name="date" value="26.01.2017">&nbsp;<input type="submit" name="submit3" value="&gt;&gt;"></form></td></tr></tbody></table></div><br><table class="repayment-table" align="center"><tbody id="shapka"><tr><th><b>Валюта</b></th><th align="center">&nbsp;<b>Обозначение</b>&nbsp;</th><th>&nbsp;<b>Продажа</b>&nbsp;</th><th>&nbsp;<b>Покупка</b>&nbsp;</th></tr></tbody><tbody><tr><td>1 Доллар США</td><td align="center">USD</td><td>&nbsp;331.2</td><td>&nbsp;325.2</td></tr><tr><td>1 Евро</td><td align="center">EUR</td><td>&nbsp;355.85</td><td>&nbsp;349.85</td></tr><tr><td>1 Российский рубль</td><td align="center">RUB</td><td>&nbsp;5.69</td><td>&nbsp;5.39</td></tr><tr><td>1 Английский фунт стерлингов</td><td align="center">GBP</td><td>&nbsp;419.05</td><td>&nbsp;407.05</td></tr><tr><td>1 Швейцарский франк</td><td align="center">CHF</td><td>&nbsp;334.7</td><td>&nbsp;322.7</td></tr></tbody></table><script type="text/javascript" language="javascript"><!--
+ var valutUSD = new Array(325.7, 331.7);  var valutEUR = new Array(348.25, 354.25);  var valutRUB = new Array(5.28, 5.58);  var valutGBP = new Array(406.2, 418.2);  var valutCHF = new Array(322.7, 334.7);  var valut = new Array("USD", "EUR", "RUB", "GBP", "CHF");  var rates = new Array( valutUSD,  valutEUR,  valutRUB,  valutGBP,  valutCHF); function getRates(currency, posInArray) {var ar = new Array(0, 0);for (i = 0; i < valut.length; i++) {if (valut[i] == currency) {ar = rates[i]; } } return ar[posInArray]; }function convertMoney(f) {f.endsum.value = "";f.endkurs1.value = "";f.endkurs2.value = "";var sum = f.sum.value.replace(/^\s*|\s*$/g,"").replace(",", ".");var reg = new RegExp("^[-+]{0,1}[0-9]*[.]{0,1}[0-9]*$");if ( !reg.test(sum) ) {alert("Не корректно указана сумма для обмена");} else {if (sum.length == 0) {alert("Не корректно указана сумма для обмена");return false; }var valut1 = f.valut1.value;var valut2 = f.valut2.value;if (valut1 == valut2) {alert("Указаны одинаковые валюты для обмена");return false;} else {rate_buy = getRates(valut1, 0);rate_sell = getRates(valut2, 1);sum = parseFloat(sum);var endsum = 0;var endkurs1 = "";var endkurs2 = "";if (valut1=="KZT" && rate_sell != 0) {endsum = sum/rate_sell;endkurs1 = 1/rate_sell;endkurs2 = rate_sell;} else {if (valut2=="KZT" && rate_buy != 0) {endsum = sum * rate_buy;endkurs1 = rate_buy;endkurs2 = 1/rate_buy;} else if (rate_buy != 0 && rate_sell != 0) {endsum = sum * rate_buy/rate_sell;endkurs1 = rate_buy/rate_sell;endkurs2 = rate_sell/rate_buy; } }f.endsum.value = ro(endsum, 3);f.endkurs1.value = "1 " + valut1 + " = " + ro(endkurs1, 4) + " " + valut2;f.endkurs2.value = "1 " + valut2 + " = " + ro(endkurs2, 4) + " " + valut1; } } }
+
+function ro(val, pw) { var pw_ = Math.pow(10, pw); return Math.round(val*pw_)/pw_; } //-->
+</script>
+
+<form name="frm" method="POST" onsubmit="convertMoney(this); return false;"><table align="center"><tbody id="shapka"><tr><th colspan="2" align="center">Валютный калькулятор. Данные на 27.01.2017</th></tr></tbody><tbody><tr><td>Сумма и валюта для обмена</td><td><input type="text" name="sum"><select name="valut1"><option value="KZT">KZT</option><option value="USD" selected="">USD</option><option value="EUR">EUR</option><option value="RUB">RUB</option><option value="GBP">GBP</option><option value="CHF">CHF</option></select></td></tr><tr><td>Конечная валюта</td><td><select name="valut2"><option value="KZT" selected="">KZT</option><option value="USD">USD</option><option value="EUR">EUR</option><option value="RUB">RUB</option><option value="GBP">GBP</option><option value="CHF">CHF</option></select></td></tr><tr align="center"><td colspan="2" height="30"><input type="submit" name="Submit" value="Подсчитать"></td></tr><tr><td><b>Сумма конечной валюты</b></td><td><b><input type="text" name="endsum" class="unborder_input"></b></td></tr><tr><td><b>Курсы обмена</b></td><td><input type="text" name="endkurs1" size="35" class="unborder_input"><br><input type="text" name="endkurs2" size="35" class="unborder_input"></td></tr></tbody></table></form>
+
+
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div></body></html>

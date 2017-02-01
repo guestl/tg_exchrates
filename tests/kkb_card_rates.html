@@ -1,0 +1,80 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="css/screen.css" rel="stylesheet" type="text/css"/>
+
+<script src="js/vendor/jquery/jquery-1.11.2.min.js"></script>
+<script src="js/vendor/jquery/jquery-ui.min.js"></script>
+<script src="js/vendor/dropkick/dropkick.min.js"></script>
+<title>card rates</title>
+
+
+ <script>
+ 
+ jQuery(function ($) {
+     $.datepicker.regional['ru'] = {
+         prevText: '&#x3c;&#x3c;',
+         nextText: '&#x3e;&#x3e',
+         monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+         'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+         dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+         dateFormat: 'dd.mm.yy',
+         firstDay: 1
+     };
+     $.datepicker.setDefaults($.datepicker.regional['ru']);
+ });
+
+ 
+
+
+$( function() {
+$( "#datepicker" ).datepicker({
+    inline: true,
+    language: 'ru'
+});
+$( ".datepicker" ).datepicker({
+    inline: true,
+    language: 'ru'
+});
+});
+</script>
+<style>
+table th {padding: 3px }
+table td {padding: 3px }
+</style>
+</head>
+<body>
+
+<br /><center><form method="POST"><table style='width: 80%'><tr><td align="center"><input name="data" class="date " id="datepicker" placeholder="Date" type="text" value='29.01.2017'></td></tr><tr><td><input type="submit" name="view" value="Показать"></td></tr></table></form></center>
+<br />
+<table width="90%" align="center" class="tbl_text90"><tbody id="shapka"><tr align="center"><th>Время начала действия курса </th><th colspan='2' align="center">Доллары США, USD</th><th colspan='2' align="center">Евро, EUR</th><th colspan='2' align="center">Рубли, RUB*</th><th colspan='2' align="center">Юани, CNY</th></tr></tbody><tbody id="shapka_sub"><tr align="center"><td>&nbsp;</td><td><b>Покупка</b></td><td><b>Продажа</b></td><td><b>Покупка</b></td><td><b>Продажа</b></td><td><b>Покупка</b></td><td><b>Продажа</b></td><td><b>Покупка</b></td><td><b>Продажа</b></td></tr></tbody><tbody style='font-weight: bold;'><tr><td>29.01 c 09:06</td><td>325.79</td><td>330.46</td><td>346.84</td><td>355.16</td><td>5.344</td><td>5.666</td><td>46.86</td><td>48.83</td></tr></tbody></table>
+</body>
+</html>
