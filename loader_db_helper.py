@@ -10,7 +10,7 @@ import logging
 import datetime
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.ERROR)
 
 class db_loader_helper:
 	"""class helper for work with SQLite3 database
@@ -175,11 +175,7 @@ class db_loader_helper:
 			self.cursor.execute(sql_text, (src_id, req_date, ))
 		except Exception as e:
 			logger.error(e)
-			logger.error(self.check_sql_string(sql_text, (src_id, req_date)))
-
-		logger.info(self.check_sql_string(sql_text, (src_id, req_date)))
-#		logger.info(src_id)
-#		logger.info(req_date)
+			logger.error(self.check_sql_string(sql_text, (src_id, req_date, )))
 
 		row = self.cursor.fetchone()
 
