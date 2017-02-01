@@ -24,7 +24,7 @@ class Loader_KZ_NB(loader_default):
 		saveRatesData - save parsed data to database
 	"""
 
-	def __init__(self, loader_name = config.rate_src_kz_nb):
+	def __init__(self, loader_name = config.RATE_SCR_KZ_NB):
 		self.url = 'http://www.nationalbank.kz/rss/get_rates.cfm?fdate='
 
 		super().__init__(loader_name)
@@ -101,7 +101,7 @@ class Loader_KZ_NB(loader_default):
 				quant = int(dat[3].text)
 
 				return_list.append((self.loader_name, buy_value, sell_value, avrg_value, 
-					rate_date, config.cur_kzt, cur_id_to, quant))
+					rate_date, config.CUR_KZT, cur_id_to, quant))
 			except Exception as e:
 				logger.error("Error during parse process")
 				logger.error(e)

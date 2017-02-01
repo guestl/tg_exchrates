@@ -40,7 +40,7 @@ class db_localizator_helper:
 		for item in data_list:
 			# is item type string?
 			if isinstance(item, str):
-				if item.find(config.label_id) > -1:
+				if item.find(config.LABEL_ID) > -1:
 					sql_text = "SELECT TEXT from labels where LABEL_ID = ? and LANG_ID = ?"
 					self.cursor.execute(sql_text, (item, lang_id))
 					fetched_data = self.cursor.fetchall()

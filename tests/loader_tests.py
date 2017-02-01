@@ -30,7 +30,7 @@ class Test_Loader:
 		print("TEAR DOWN!")
 
 	def test_case1_KZ_NB_LoaderName(self):
-		assert self.kz_nb_ldr.loader_name == config.rate_src_kz_nb
+		assert self.kz_nb_ldr.loader_name == config.RATE_SCR_KZ_NB
 
 	def test_case1_KZ_NB_Loader_Parse(self):
 		file = codecs.open("tests\\get_rates.cfm.nb.kz.xml", 'r', 'utf-8')
@@ -44,7 +44,7 @@ class Test_Loader:
 			datetime.datetime(2016, 2, 23, 0, 0), 'KZT', 'CHF', 1)]
 
 	def test_case1_KZ_KKBER_LoaderName(self):
-		assert self.kz_kkber_ldr.loader_name == config.rate_src_kz_kkb_exchr
+		assert self.kz_kkber_ldr.loader_name == config.RATE_SCR_KZ_KKB_EXCHR
 
 	def test_case1_KZ_KKBER_Loader_Parse(self):
 		file = codecs.open("tests\\kkb_exch rates.html", 'r', 'utf-8')
@@ -56,7 +56,7 @@ class Test_Loader:
 			'GBP', 1), ('KZ_KKBER', 334.7, 322.7, 0, datetime.datetime(2017, 1, 25, 0, 0), 'KZT', 'CHF', 1)]
 
 	def test_case1_KZ_KKBCRD_LoaderName(self):
-		assert self.kz_kkbcrd_ldr.loader_name == config.rate_src_kz_kkb_cards
+		assert self.kz_kkbcrd_ldr.loader_name == config.RATE_SCR_KZ_KKB_CARDS
 
 	def test_case1_KZ_KKBCRD_Loader_Parse(self):
 		file = codecs.open("tests\\kkb_card_rates.html", 'r', 'utf-8')
@@ -67,7 +67,7 @@ class Test_Loader:
 		datetime.datetime(2017, 1, 29, 0, 0), 'KZT', 'RUB', 1], ['KZ_KKBCRD', 46.86, 48.83, 0, datetime.datetime(2017, 1, 29, 0, 0), 'KZT', 'CNY', 1]]
 
 	def test_case1_KZ_bai_alfa_LoaderName(self):
-		assert self.kz_bai_alfa_ldr.loader_name == config.rate_src_kz_alfa
+		assert self.kz_bai_alfa_ldr.loader_name == config.RATE_SCR_KZ_ALFA
 
 	def test_case1_KZ_bai_alfa_Loader_Parse(self):
 		file = codecs.open("tests\\baikz alfa.html", 'r', 'utf-8')

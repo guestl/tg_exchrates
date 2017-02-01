@@ -12,7 +12,7 @@ class loader_default:
 		self.database = db_loader_helper()
 		self.loader_name = loader_name
 
-		self.user_agent = config.user_agents[random.randrange(len(config.user_agents))]
+		self.user_agent = config.USER_AGENTS[random.randrange(len(config.USER_AGENTS))]
 		self.headers = {'user-agent' : self.user_agent}
 
 	@abstractmethod

@@ -90,7 +90,7 @@ class Loader_def_KZ_bai(loader_default):
 
 		for i in elements:
 			parsed_cur = ''.join(i.split())
-			return_list.append([self.loader_name , 0, 0, 0, None, config.cur_kzt, 
+			return_list.append([self.loader_name , 0, 0, 0, None, config.CUR_KZT, 
 						parsed_cur, quant])
 			currency_dict[parsed_cur] = [idx, parsed_cur in cur_list]
 			idx += 1

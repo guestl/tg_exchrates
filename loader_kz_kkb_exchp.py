@@ -79,7 +79,7 @@ class MyHTMLParser(HTMLParser):
 			self.sell_value = float(data)
 			#because it is the last value we add all collected data in return list
 			self.return_list.append((self.loader_name, self.buy_value, self.sell_value, self.avrg_value, 
-					self.rate_date, config.cur_kzt, self.cur_id_to, self.quant))
+					self.rate_date, config.CUR_KZT, self.cur_id_to, self.quant))
 
 class Loader_KZ_KKB_Excghp(loader_default):
 	"""Load and parse data from KKB (exchange points)
@@ -90,7 +90,7 @@ class Loader_KZ_KKB_Excghp(loader_default):
 		saveRatesData - save parsed data to database
 	"""
 
-	def __init__(self, loader_name = config.rate_src_kz_kkb_exchr):
+	def __init__(self, loader_name = config.RATE_SCR_KZ_KKB_EXCHR):
 		self.url = 'http://www.kkb.kz/rates/RatesExch.jsp'
 
 		super().__init__(loader_name)

@@ -79,7 +79,7 @@ class MyHTMLParser(HTMLParser):
 				except Exception as e:
 					logger.error(e)
 					self.sell_v = None
-				self.return_list.append([self.loader_name, self.buy_v, self.sell_v, self.avr_v, self.cur_date, config.cur_kzt, 
+				self.return_list.append([self.loader_name, self.buy_v, self.sell_v, self.avr_v, self.cur_date, config.CUR_KZT, 
 					self.curList[self.cur_index], self.quant])
 				self.pair_counter = 0
 				self.cur_index += 1
@@ -95,7 +95,7 @@ class Loader_KZ_KKB_cards(loader_default):
 		saveRatesData - save parsed data to database
 	"""
 
-	def __init__(self, loader_name = config.rate_src_kz_kkb_cards):
+	def __init__(self, loader_name = config.RATE_SCR_KZ_KKB_CARDS):
 		self.url = 'http://www.kkb.kz/rates/RatesCards.jsp'
 
 		super().__init__(loader_name)

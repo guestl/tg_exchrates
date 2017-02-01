@@ -26,7 +26,7 @@ class Loader_KZ_bai_alfa(Loader_def_KZ_bai):
 		saveRatesData - save parsed data to database
 	"""
 
-	def __init__(self, loader_name = config.rate_src_kz_alfa):
+	def __init__(self, loader_name = config.RATE_SCR_KZ_ALFA):
 		self.url = 'http://bai.kz/bank/alfa-bank/kursy/'
 
 		super().__init__(loader_name, self.url)

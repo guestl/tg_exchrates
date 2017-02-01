@@ -8,7 +8,7 @@ import localizator_db_helper
 
 class localizator:
 	#default language
-	language = config.def_lang
+	language = config.DEF_LANG
 	database = None
 
 	def __init__(self, language):
@@ -17,7 +17,7 @@ class localizator:
 		if self.check_lang_id(language):
 			self.language = language
 		else:
-			self.language = config.def_lang
+			self.language = config.DEF_LANG
 
 
 	def check_lang_id(self, language):
