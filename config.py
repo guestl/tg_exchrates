@@ -4,8 +4,11 @@ dbname = 'tg_exchrates.sqlite'
 LABEL_ID = 'LBL'
 DEF_LANG = 'ru-ru'
 
+#delay time in seconds
 delay = 20
 
+#caсhe live time in seconds
+CAСHE_LIVE_TIME = 1800 
 
 cur_eur = 'EUR'
 cur_usd = 'USD'

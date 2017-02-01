@@ -40,8 +40,8 @@ class Loader_def_KZ_bai(loader_default):
 		"""
 #		logger.info("load Daily Data for date")
 #		logger.info(dateForLoad.date())
-		self.dailyData = dateForLoad.date()
-		str_date_for_load = self.dailyData.strftime('%d.%m.%Y')
+		self.daily_date = dateForLoad.date()
+		str_date_for_load = self.daily_date.strftime('%d.%m.%Y')
 
 		# temporary get data from a file
 		loadedData = ''
@@ -57,6 +57,7 @@ class Loader_def_KZ_bai(loader_default):
 			loadedData = None
 
 		if loadedData:
+			self.saveCachedData(loadedData)
 			return loadedData
 		else: return None
 

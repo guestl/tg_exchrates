@@ -63,7 +63,10 @@ loaders_list = [ldr_kz_nb, ldr_kz_kkb_exchp, ldr_kz_kkb_cards, ldr_kz_bai_alfa]
 loadedData = ''
 #loop in loaders list
 for ldr in loaders_list:
-	loadedData = ldr.loadDailyData(date_for_load)
+#	loadedData = ldr.loadDailyData(date_for_load)
+	print(10*"---")
+	print("cache is: ", ldr.check_cache(datetime.datetime.date(date_for_load)))
+	print(10*"---")
 	if loadedData:
 		parsedData = ldr.parseDailyData(loadedData)
 	else:

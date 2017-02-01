@@ -11,6 +11,7 @@ class loader_default:
 	def __init__(self, loader_name):
 		self.database = db_loader_helper()
 		self.loader_name = loader_name
+		self.daily_date = None
 
 		self.user_agent = config.USER_AGENTS[random.randrange(len(config.USER_AGENTS))]
 		self.headers = {'user-agent' : self.user_agent}
@@ -34,7 +35,7 @@ class loader_default:
 	def get_domains_history(self):
 		return self.database.get_domains_history()
 
-	#TODO: переделать. убрать scr_id, он и так у нас уже есть
+	#TODO: переделать. убрать scr_id, он же и так у нас уже есть
 	def update_loader_log(self, src_id):
 		self.database.update_loader_log(src_id)	
 
@@ -46,3 +47,14 @@ class loader_default:
 	# save parsed data into db
 	def saveRatesData(self, parsedData):
 		self.database.add_currency_rates_data(parsedData)
+
+	# save cache data into db
+	def saveCachedData(self, cached_data):
+		if not self.daily_date is None:
+			data_for_cache = [self.loader_name, self.daily_date, cached_data]
+		else:
+			raise ValueError("daily date is None")
+		self.database.add_cache(data_for_cache)		
+
+	def check_cache(self, date_for_check):
+		return self.database.check_and_load_cache(self.loader_name, date_for_check)

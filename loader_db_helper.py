@@ -10,7 +10,7 @@ import logging
 import datetime
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.ERROR)
+logger.setLevel(logging.DEBUG)
 
 class db_loader_helper:
 	"""class helper for work with SQLite3 database
@@ -149,3 +149,42 @@ class db_loader_helper:
 			logger.error(self.check_sql_string(sql_text, (src_id, )))		
 
 		logger.info("Commit done")
+
+	def add_cache(self, data_for_cache):
+		try:
+			sql_text = "REPLACE INTO cache_rates (SRC_ID, REQUESTED_RATE_DATE, CACHE_DATA) VALUES (?,?,?)"
+			self.connection.executemany(sql_text, (data_for_cache,))
+
+			self.connection.commit()
+		except Exception as e:
+			logger.error(e)
+			logger.error(sql_text)
+			logger.error(data_for_cache)
+
+		logger.info("Commit done")
+
+
+	def check_and_load_cache(self, src_id, req_date):
+		try:
+			sql_text = 'SELECT cr.CACHE_DATA ' \
+						'from cache_rates cr ' \
+						'where cr.SRC_ID = ? and ' \
+						'cr.REQUESTED_RATE_DATE = ? ' \
+						'order by cr.CACHE_DATETIME desc ' \
+						'limit 1'
+			self.cursor.execute(sql_text, (src_id, req_date, ))
+		except Exception as e:
+			logger.error(e)
+			logger.error(self.check_sql_string(sql_text, (src_id, req_date)))
+
+		logger.info(self.check_sql_string(sql_text, (src_id, req_date)))
+#		logger.info(src_id)
+#		logger.info(req_date)
+
+		row = self.cursor.fetchone()
+
+		logger.info(row)
+		if not row is None: 
+			return row[0]
+		else: 
+			return None
