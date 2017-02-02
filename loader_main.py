@@ -36,16 +36,16 @@ args = parser.parse_args()
 
 date_for_load = datetime.datetime.now()
 if args.d:
-	try:
-		args_date = datetime.datetime.strptime(args.d, "%d/%m/%Y")
-		logging.info("args date is: ")
-		logging.info(args_date)
-		date_for_load = args_date
-	except Exception as e:
-		logging.error("Invalid command line parameter:")
-		logging.error(args)
-		logging.error(e)
-		date_for_load = datetime.datetime.now()
+    try:
+        args_date = datetime.datetime.strptime(args.d, "%d/%m/%Y")
+        logging.info("args date is: ")
+        logging.info(args_date)
+        date_for_load = args_date
+    except Exception as e:
+        logging.error("Invalid command line parameter:")
+        logging.error(args)
+        logging.error(e)
+        date_for_load = datetime.datetime.now()
 
 #init delay 
 throttle = Throttle(config.delay)
@@ -63,19 +63,19 @@ loaders_list = [ldr_kz_nb, ldr_kz_kkb_exchp, ldr_kz_kkb_cards, ldr_kz_bai_alfa]
 loadedData = ''
 #loop in loaders list
 for ldr in loaders_list:
-#	loadedData = ldr.loadDailyData(date_for_load)
-	print(10*"---")
-	print("cache is: ", ldr.check_cache(datetime.datetime.date(date_for_load)))
-	print(10*"---")
-	if loadedData:
-		parsedData = ldr.parseDailyData(loadedData)
-	else:
-		logging.error("Empty loaded data")
-		parsedData = None
+#    loadedData = ldr.loadDailyData(date_for_load)
+    print(10*"---")
+    print("cache is: ", ldr.check_cache(datetime.datetime.date(date_for_load)))
+    print(10*"---")
+    if loadedData:
+        parsedData = ldr.parseDailyData(loadedData)
+    else:
+        logging.error("Empty loaded data")
+        parsedData = None
 
-	if parsedData:
-		ldr.saveRatesData(parsedData)
-	throttle.wait(ldr.get_domain())
+    if parsedData:
+        ldr.saveRatesData(parsedData)
+    throttle.wait(ldr.get_domain())
 
 #loc = localizator("en-us")
 

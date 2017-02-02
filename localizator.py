@@ -7,22 +7,22 @@ import logging
 import localizator_db_helper 
 
 class localizator:
-	#default language
-	language = config.DEF_LANG
-	database = None
+    #default language
+    language = config.DEF_LANG
+    database = None
 
-	def __init__(self, language):
-		self.database = localizator_db_helper.db_localizator_helper()
+    def __init__(self, language):
+        self.database = localizator_db_helper.db_localizator_helper()
 
-		if self.check_lang_id(language):
-			self.language = language
-		else:
-			self.language = config.DEF_LANG
+        if self.check_lang_id(language):
+            self.language = language
+        else:
+            self.language = config.DEF_LANG
 
 
-	def check_lang_id(self, language):
-		return self.database.check_lang_id(language)
+    def check_lang_id(self, language):
+        return self.database.check_lang_id(language)
 
-	def get_translated_labels(self, data_list):
-		return self.database.get_labels_list(self.language, data_list)
+    def get_translated_labels(self, data_list):
+        return self.database.get_labels_list(self.language, data_list)
 
