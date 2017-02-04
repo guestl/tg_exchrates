@@ -112,6 +112,7 @@ class Loader_KZ_KKB_Excghp(loader_default):
         # temporary get data from a file
         loadedData = ''
 
+        # TODO: check for cache for bai.kz
         try:
             req = requests.post(self.url, data = {'name':'form2', 'date':str_date_for_load}, headers = self.headers)
             loadedData = req.text

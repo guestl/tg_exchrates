@@ -18,7 +18,6 @@ logger.setLevel(logging.ERROR)
 
 class Loader_def_KZ_bai(loader_default):
     """Load and parse data from bai.kz
-    
     methods:
         loadDailyData - load rates data for a specific date
         parseDailyData - parse loaded rates data
@@ -32,10 +31,10 @@ class Loader_def_KZ_bai(loader_default):
 
     def loadDailyData(self, dateForLoad):
         """Download daily currency exchange rates data from specific url
-        
+
         Arguments:
             dateForLoad {Date} -- [Date for load]
-        
+
         Returns:
             [string] -- [return context of web page with exchange rates or 'None']
         """
@@ -47,24 +46,28 @@ class Loader_def_KZ_bai(loader_default):
         # temporary get data from a file
         loadedData = ''
 
-        try:
-            req = requests.post(self.url, data = {'data':str_date_for_load}, headers = self.headers)
-            loadedData = req.text
+        # TODO: check for cache for bai.kz
+        loadedData = self.database.check_and_load_cache(self.loader_name, str_date_for_load)
 
-            self.update_loader_log(self.loader_name)
-        except Exception as e:
-            logger.error("Error during loading process")
-            logger.error(e)
-            loadedData = None
+        if loadedData is None:
+            try:
+                req = requests.post(self.url, data={'data': str_date_for_load}, headers=self.headers)
+                loadedData = req.text
+
+                self.update_loader_log(self.loader_name)
+            except Exception as e:
+                logger.error("Error during loading process")
+                logger.error(e)
+                loadedData = None
 
         if loadedData:
             self.saveCachedData(loadedData)
             return loadedData
-        else: return None
+        else:
+            return None
 
     def parseDailyData(self, dataForParse):
         """Parse downloaded data
-        
         Arguments:
             dataForParse {string} -- [String with data for parsing]
 
@@ -73,7 +76,7 @@ class Loader_def_KZ_bai(loader_default):
         """
 #        logger.info("we have to parse for these currencies:")
 
-        #setup default values
+        # setup default values
         quant = 1
 
         return_list = []
@@ -84,7 +87,7 @@ class Loader_def_KZ_bai(loader_default):
 #        logger.info(cur_list)
 
         parser = etree.HTMLParser()
-        tree = etree.parse(io.StringIO(dataForParse),parser)
+        tree = etree.parse(io.StringIO(dataForParse), parser)
 
         elements = tree.xpath('//table[@class="cv_table"]/tbody/tr/th/div/following-sibling::text()')
         idx = 0
@@ -98,7 +101,7 @@ class Loader_def_KZ_bai(loader_default):
         idx = 0
 
         row_count = int(tree.xpath('count(//table[@class="cv_table"]/tbody/tr)'))
-    
+
         for i in range(2, row_count + 1):
             rows = tree.xpath('//table[@class="cv_table"]/tbody/tr[' + str(i) + ']')
             for row in rows:
@@ -110,7 +113,7 @@ class Loader_def_KZ_bai(loader_default):
                 td = row.xpath('./td[4]')
                 return_list[idx][2] = float(td[0].text)
                 td = row.xpath('./td[5]')
-                return_list[idx][4] =  datetime.strptime(td[0].text, "%d.%m.%Y")
+                return_list[idx][4] = datetime.strptime(td[0].text, "%d.%m.%Y")
             idx += 1
 
         for cur_el in currency_dict:

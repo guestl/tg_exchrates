@@ -26,6 +26,7 @@ class Test_Loader:
         self.kz_kkber_ldr = Loader_KZ_KKB_Excghp()
         self.kz_kkbcrd_ldr = Loader_KZ_KKB_cards()
         self.kz_bai_alfa_ldr = Loader_KZ_bai_alfa()
+        self.kz_bai_halyk_ldr
 
     def teardown(self):
         print("TEAR DOWN!")
@@ -50,7 +51,7 @@ class Test_Loader:
         file = codecs.open("tests\\kkb_exch rates.html", 'r', 'utf-8')
         dataForParse = file.read()
 
-        assert self.kz_kkber_ldr.parseDailyData(dataForParse) ==[('KZ_KKBER', 331.2, 325.2, 0, datetime.datetime(2017, 1, 25, 0, 0), 'KZT', 
+        assert self.kz_kkber_ldr.parseDailyData(dataForParse) == [('KZ_KKBER', 331.2, 325.2, 0, datetime.datetime(2017, 1, 25, 0, 0), 'KZT', 
             'USD', 1), ('KZ_KKBER', 355.85, 349.85, 0, datetime.datetime(2017, 1, 25, 0, 0), 'KZT', 'EUR', 1), ('KZ_KKBER', 5.69, 5.39, 0, 
             datetime.datetime(2017, 1, 25, 0, 0), 'KZT', 'RUB', 1), ('KZ_KKBER', 419.05, 407.05, 0, datetime.datetime(2017, 1, 25, 0, 0), 'KZT', 
             'GBP', 1), ('KZ_KKBER', 334.7, 322.7, 0, datetime.datetime(2017, 1, 25, 0, 0), 'KZT', 'CHF', 1)]
@@ -78,15 +79,21 @@ class Test_Loader:
         datetime.datetime(2017, 1, 30, 0, 0), 'KZT', 'RUB', 1]]
 
     def test_getting_currency_list_as_separate_function(self):
-        currency_list = ['EUR', 'USD', 'RUB', 'CHF', 'GBP', 'KGS'] 
+        currency_list = ['EUR', 'USD', 'RUB', 'CHF', 'GBP', 'KGS']
         loaded_currency_list = self.kz_nb_ldr.get_currency_list()
         assert set(loaded_currency_list) == set(currency_list)
 
     def test_getting_source_domain_as_separate_function(self):
-        domain = 'nb.kz' 
+        domain = 'nb.kz'
         loaded_domain = self.kz_nb_ldr.get_domain()
         assert loaded_domain == domain
 
+    def test_getting_halyk_cash(self):
+        pass
+
+    def test_getting_halyk_card(self):
+        pass
+ 
 
 if __name__ == '__main__':
     nose.main()

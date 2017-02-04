@@ -17,53 +17,58 @@ logger.setLevel(logging.ERROR)
 
 class Loader_KZ_NB(loader_default):
     """Load and parse data from National bank of Kazakhstan
-    
+
     methods:
         loadDailyData - load rates data for a specific date
         parseDailyData - parse loaded rates data
         saveRatesData - save parsed data to database
     """
 
-    def __init__(self, loader_name = config.RATE_SCR_KZ_NB):
+    def __init__(self, loader_name=config.RATE_SCR_KZ_NB):
         self.url = 'http://www.nationalbank.kz/rss/get_rates.cfm?fdate='
 
         super().__init__(loader_name)
 
     def loadDailyData(self, dateForLoad):
         """Download daily currency exchange rates data from specific url
-        
+
         Arguments:
             dateForLoad {Date} -- [Date for load]
-        
+
         Returns:
             [string] -- [return context of web page with exchange rates or 'None']
         """
         logger.info("load Daily Data for date")
         logger.info(dateForLoad.date())
         self.daily_date = dateForLoad.date()
+        str_date_for_load = self.daily_date.strftime('%d.%m.%Y')
 
         # temporary get data from a file
         loadedData = ''
 
-        try:
-            req = requests.get(self.url + dateForLoad.strftime("%d.%m.%Y"), headers = self.headers)
-            loadedData = req.text
+        # TODO: check for cache for bai.kz
+        loadedData = self.database.check_and_load_cache(self.loader_name, str_date_for_load)
 
-            self.update_loader_log(self.loader_name)
-        except Exception as e:
-            logger.error("Error during loading process")
-            logger.error(e)
-            loadedData = None
+        if loadedData is None:
+            try:
+                req = requests.get(self.url + dateForLoad.strftime("%d.%m.%Y"), headers=self.headers)
+                loadedData = req.text
+
+                self.update_loader_log(self.loader_name)
+            except Exception as e:
+                logger.error("Error during loading process")
+                logger.error(e)
+                loadedData = None
 
         if loadedData:
             self.saveCachedData(loadedData)
             return loadedData
-        else: 
-        	return None
+        else:
+            return None
 
     def parseDailyData(self, dataForParse):
         """Parse downloaded data
-        
+
         Arguments:
             dataForParse {string} -- [String with data for parsing]
 
@@ -72,7 +77,7 @@ class Loader_KZ_NB(loader_default):
         """
         logger.info("we have to parse for these currencies:")
 
-        #setup default values
+        # setup default values
         buy_value = 0
         sell_value = 0
         avrg_value = 0
@@ -100,8 +105,8 @@ class Loader_KZ_NB(loader_default):
                 cur_id_to = dat[1].text
                 quant = int(dat[3].text)
 
-                return_list.append((self.loader_name, buy_value, sell_value, avrg_value, 
-                    rate_date, config.CUR_KZT, cur_id_to, quant))
+                return_list.append((self.loader_name, buy_value, sell_value, avrg_value,
+                                    rate_date, config.CUR_KZT, cur_id_to, quant))
             except Exception as e:
                 logger.error("Error during parse process")
                 logger.error(e)

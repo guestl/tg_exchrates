@@ -10,7 +10,7 @@ from loader_kz_nb import Loader_KZ_NB
 from loader_kz_kkb_exchp import Loader_KZ_KKB_Excghp
 from loader_kz_kkb_cards import Loader_KZ_KKB_cards
 from loader_kz_bai_alfa import Loader_KZ_bai_alfa
-from localizator import localizator
+#from localizator import localizator
 
 import logging
 import logging.config
@@ -20,13 +20,13 @@ import argparse
 
 logging.config.fileConfig('logging_loader.ini', disable_existing_loggers=False)
 
-logger = logging.getLogger() # this gets the root logger
+logger = logging.getLogger()  # this gets the root logger
 logger.setLevel(logging.INFO)
 
-#parse command line parameters
+# parse command line parameters
 parser = argparse.ArgumentParser(description='Exchange rates loader main script')
 
-parser.add_argument('-d', help = "Date in format dd/mm/YYYY. If empty the script will use current date", required = False)
+parser.add_argument('-d', help="Date in format dd/mm/YYYY. If empty the script will use current date", required=False)
 
 args = parser.parse_args()
 
@@ -47,26 +47,27 @@ if args.d:
         logging.error(e)
         date_for_load = datetime.datetime.now()
 
-#init delay 
+# init delay
 throttle = Throttle(config.delay)
 
-#create new loader instance
+# create new loader instance
 ldr_kz_nb = Loader_KZ_NB()
 ldr_kz_kkb_exchp = Loader_KZ_KKB_Excghp()
 ldr_kz_kkb_cards = Loader_KZ_KKB_cards()
 ldr_kz_bai_alfa = Loader_KZ_bai_alfa()
 
-#here is the place for adding an instance into the loaders list
+# here is the place for adding an instance into the loaders list
 loaders_list = [ldr_kz_nb, ldr_kz_kkb_exchp, ldr_kz_kkb_cards, ldr_kz_bai_alfa]
 
 
 loadedData = ''
-#loop in loaders list
+# loop in loaders list
 for ldr in loaders_list:
-#    loadedData = ldr.loadDailyData(date_for_load)
-    print(10*"---")
-    print("cache is: ", ldr.check_cache(datetime.datetime.date(date_for_load)))
-    print(10*"---")
+    #TODO: move functional to loader classes
+    loadedData = ldr.check_cache(datetime.datetime.date(date_for_load))
+    if loadedData is None:
+        logger.info("No cache, load from internet")
+        loadedData = ldr.loadDailyData(date_for_load)
     if loadedData:
         parsedData = ldr.parseDailyData(loadedData)
     else:
@@ -77,6 +78,6 @@ for ldr in loaders_list:
         ldr.saveRatesData(parsedData)
     throttle.wait(ldr.get_domain())
 
-#loc = localizator("en-us")
+# loc = localizator("en-us")
 
-#logging.info(loc.get_translated_labels(["EUR","LBL000002", 12.4,"LBL000001", "LBL000005"]))
+# logging.info(loc.get_translated_labels(["EUR","LBL000002", 12.4,"LBL000001", "LBL000005"]))
