@@ -63,11 +63,7 @@ loaders_list = [ldr_kz_nb, ldr_kz_kkb_exchp, ldr_kz_kkb_cards, ldr_kz_bai_alfa]
 loadedData = ''
 # loop in loaders list
 for ldr in loaders_list:
-    #TODO: move functional to loader classes
-    loadedData = ldr.check_cache(datetime.datetime.date(date_for_load))
-    if loadedData is None:
-        logger.info("No cache, load from internet")
-        loadedData = ldr.loadDailyData(date_for_load)
+    loadedData = ldr.loadDailyData(date_for_load)
     if loadedData:
         parsedData = ldr.parseDailyData(loadedData)
     else:

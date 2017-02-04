@@ -12,7 +12,7 @@ import logging
 #import loader_db_helper
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.ERROR)
+logger.setLevel(logging.INFO)
 
 
 class Loader_KZ_NB(loader_default):
@@ -38,18 +38,17 @@ class Loader_KZ_NB(loader_default):
         Returns:
             [string] -- [return context of web page with exchange rates or 'None']
         """
-        logger.info("load Daily Data for date")
-        logger.info(dateForLoad.date())
+ #       logger.info("load Daily Data for date")
+ #       logger.info(dateForLoad.date())
         self.daily_date = dateForLoad.date()
-        str_date_for_load = self.daily_date.strftime('%d.%m.%Y')
 
         # temporary get data from a file
         loadedData = ''
 
-        # TODO: check for cache for bai.kz
-        loadedData = self.database.check_and_load_cache(self.loader_name, str_date_for_load)
+        # check for cache for nb.kz
+        cachedData = self.check_cache(self.daily_date)
 
-        if loadedData is None:
+        if cachedData is None:
             try:
                 req = requests.get(self.url + dateForLoad.strftime("%d.%m.%Y"), headers=self.headers)
                 loadedData = req.text
@@ -59,12 +58,14 @@ class Loader_KZ_NB(loader_default):
                 logger.error("Error during loading process")
                 logger.error(e)
                 loadedData = None
-
-        if loadedData:
-            self.saveCachedData(loadedData)
-            return loadedData
         else:
+            loadedData = cachedData
+
+        if loadedData and cachedData is None:
+            self.saveCachedData(loadedData)
+        elif loadedData is None:
             return None
+        return loadedData
 
     def parseDailyData(self, dataForParse):
         """Parse downloaded data
@@ -75,7 +76,6 @@ class Loader_KZ_NB(loader_default):
         Returns:
             [list] -- [return list of specific data (source, avrg_value, rate_datetime, curidfrom, curidto, quant) or 'None']
         """
-        logger.info("we have to parse for these currencies:")
 
         # setup default values
         buy_value = 0
@@ -86,7 +86,8 @@ class Loader_KZ_NB(loader_default):
 
         cur_list = self.get_currency_list()
 
-        logger.info(cur_list)
+#       logger.info("we have to parse for these currencies:")
+#       logger.info(cur_list)
 
         root = etree.fromstring(dataForParse)
 
@@ -114,13 +115,13 @@ class Loader_KZ_NB(loader_default):
                 cur_id_to = None
                 quant = None
 
-        logger.info(return_list)
+ #       logger.info(return_list)
         if return_list:
             return return_list
         return None
 
     def saveRatesData(self, parsedData):
-        logger.info("We will ask to insert the next data:")
-        logger.info(parsedData)
+#        logger.info("We will ask to insert the next data:")
+#        logger.info(parsedData)
 
         super().saveRatesData(parsedData)

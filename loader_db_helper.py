@@ -11,7 +11,7 @@ import datetime
 import time
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.ERROR)
 
 
 class db_loader_helper:
@@ -198,15 +198,19 @@ class db_loader_helper:
 
         row = self.cursor.fetchone()
 
-#        logger.info(row)
         if row is not None:
             # we have a cache!
             cache = row[0]
  #           logger.info(cache)
             cache_datetime = datetime.datetime.strptime(row[1], '%Y-%m-%d %H:%M:%S')
+
             logger.info('cache_datetime is ')
             logger.info(cache_datetime)
             logger.info(datetime.datetime.utcnow())
+            logger.info((datetime.datetime.utcnow() - cache_datetime).total_seconds())
+            logger.info(config.CAСHE_LIVE_TIME)
+            logger.info((datetime.datetime.utcnow() - cache_datetime).total_seconds() > config.CAСHE_LIVE_TIME)
+
             if (datetime.datetime.utcnow() - cache_datetime).total_seconds() > config.CAСHE_LIVE_TIME:
                 return None
             else:

@@ -46,10 +46,10 @@ class Loader_def_KZ_bai(loader_default):
         # temporary get data from a file
         loadedData = ''
 
-        # TODO: check for cache for bai.kz
-        loadedData = self.database.check_and_load_cache(self.loader_name, str_date_for_load)
+        # check for cache for bai.kz
+        cachedData = self.check_cache(self.daily_date)
 
-        if loadedData is None:
+        if cachedData is None:
             try:
                 req = requests.post(self.url, data={'data': str_date_for_load}, headers=self.headers)
                 loadedData = req.text
@@ -59,12 +59,14 @@ class Loader_def_KZ_bai(loader_default):
                 logger.error("Error during loading process")
                 logger.error(e)
                 loadedData = None
-
-        if loadedData:
-            self.saveCachedData(loadedData)
-            return loadedData
         else:
+            loadedData = cachedData
+
+        if loadedData and cachedData is None:
+            self.saveCachedData(loadedData)
+        elif loadedData is None:
             return None
+        return loadedData
 
     def parseDailyData(self, dataForParse):
         """Parse downloaded data
