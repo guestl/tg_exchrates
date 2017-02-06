@@ -8,10 +8,9 @@ import config
 import logging
 
 import datetime
-import time
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.ERROR)
+logger.setLevel(config.LOGGER_LEVEL)
 
 
 class db_loader_helper:
@@ -52,7 +51,15 @@ class db_loader_helper:
     """
 
     def get_rate_src_type_string(self, src_id):
+        """Get rate sources type for specific source
+
+        Get type of rate source - cash rate or cards rate. We will compare these values with dict config.RATES_TYPES
+
+        Returns:
+            list -- list of IDX_TYPE fields from "global_variables" table
+        """
         result = ''
+        # logger.debug(src_id)
 
         try:
             sql_text = 'select gv.IDX_TYPE  ' \
@@ -66,7 +73,8 @@ class db_loader_helper:
 
         if self.cursor:
             for row in self.cursor:
-                result.append(row[0])
+                # logger.debug(row)
+                result = row[0]
         return result
 
     def get_languages_list(self):

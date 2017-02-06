@@ -28,6 +28,13 @@ class loader_default:
         pass
 
     def get_rate_stc_type_string(self):
+        """Get rate sources type for specific source
+
+        Get type of rate source - cash rate or cards rate. We will compare these values with dict config.RATES_TYPES
+
+        Returns:
+            list -- list of IDX_TYPE fields from "global_variables" table
+        """
         return self.database.get_rate_src_type_string(self.loader_name)
 
     def get_currency_list(self):

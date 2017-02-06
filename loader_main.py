@@ -10,6 +10,9 @@ from loader_kz_nb import Loader_KZ_NB
 from loader_kz_kkb_exchp import Loader_KZ_KKB_Excghp
 from loader_kz_kkb_cards import Loader_KZ_KKB_cards
 from loader_kz_bai_alfa import Loader_KZ_bai_alfa
+from loader_kz_bai_halyk_cash import Loader_KZ_bai_halyk_cash
+from loader_kz_bai_halyk_cards import Loader_KZ_bai_halyk_cards
+
 #from localizator import localizator
 
 import logging
@@ -21,7 +24,7 @@ import argparse
 logging.config.fileConfig('logging_loader.ini', disable_existing_loggers=False)
 
 logger = logging.getLogger()  # this gets the root logger
-logger.setLevel(logging.INFO)
+logger.setLevel(config.LOGGER_LEVEL)
 
 # parse command line parameters
 parser = argparse.ArgumentParser(description='Exchange rates loader main script')
@@ -55,9 +58,11 @@ ldr_kz_nb = Loader_KZ_NB()
 ldr_kz_kkb_exchp = Loader_KZ_KKB_Excghp()
 ldr_kz_kkb_cards = Loader_KZ_KKB_cards()
 ldr_kz_bai_alfa = Loader_KZ_bai_alfa()
+kz_bai_halyk_cash_ldr = Loader_KZ_bai_halyk_cash()
+kz_bai_halyk_cards_ldr = Loader_KZ_bai_halyk_cards()
 
 # here is the place for adding an instance into the loaders list
-loaders_list = [ldr_kz_nb, ldr_kz_kkb_exchp, ldr_kz_kkb_cards, ldr_kz_bai_alfa]
+loaders_list = [ldr_kz_nb, ldr_kz_kkb_exchp, ldr_kz_kkb_cards, ldr_kz_bai_alfa, kz_bai_halyk_cash_ldr, kz_bai_halyk_cards_ldr]
 
 
 loadedData = ''

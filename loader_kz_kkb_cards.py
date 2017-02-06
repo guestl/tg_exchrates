@@ -14,11 +14,11 @@ import logging
 #import loader_db_helper
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.ERROR)
+logger.setLevel(config.LOGGER_LEVEL)
 
 
 class MyHTMLParser(HTMLParser):
-    def __init__(self, loader_name, return_list, currency_list,  *args, **kwargs):
+    def __init__(self, loader_name, return_list, currency_list, *args, **kwargs):
         self.inTable = False
         self.inRow = False
         self.skip_text_counter = 0
@@ -164,8 +164,3 @@ class Loader_KZ_KKB_cards(loader_default):
         if return_list:
             return return_list
         return None
-
-    def saveRatesData(self, parsedData):
-        logger.info("We will ask to insert the next data:")
-        logger.info(parsedData)
-        super().saveRatesData(parsedData)

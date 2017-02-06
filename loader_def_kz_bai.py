@@ -13,7 +13,7 @@ import requests
 import logging
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.ERROR)
+logger.setLevel(config.LOGGER_LEVEL)
 
 
 class Loader_def_KZ_bai(loader_default):
@@ -76,63 +76,77 @@ class Loader_def_KZ_bai(loader_default):
         Returns:
             [list] -- [return list of specific data (source, avrg_value, rate_datetime, curidfrom, curidto, quant) or 'None']
         """
-#        logger.info("we have to parse for these currencies:")
-
         # setup default values
         quant = 1
+        avrg_value = 0
+        rate_type_for_source = self.get_rate_stc_type_string()
+        currencies_list = self.get_currency_list()
+        # logger.debug(currencies_list)
 
         return_list = []
-        currency_dict = {}
 
-        cur_list = self.get_currency_list()
-
-#        logger.info(cur_list)
+#        currency_dict = {}
 
         parser = etree.HTMLParser()
         tree = etree.parse(io.StringIO(dataForParse), parser)
 
-        elements = tree.xpath('//table[@class="cv_table"]/tbody/tr/th/div/following-sibling::text()')
-        idx = 0
+        counter = tree.xpath('count(//table[@class="cv_table"]/tbody/tr)')
+        try:
+            counter = int(counter)
+        except Exception as e:
+            logger.error(e)
+            return None
 
-        for i in elements:
-            parsed_cur = ''.join(i.split())
-            return_list.append([self.loader_name, 0, 0, 0, None, config.CUR_KZT, parsed_cur, quant])
-            currency_dict[parsed_cur] = [idx, parsed_cur in cur_list]
-            idx += 1
+        # logger.debug(counter)
+        for elem in range(1, counter + 1):
+            rows = tree.xpath('//table[@class="cv_table"]/tbody/tr[' + str(elem) + ']')
 
-        idx = 0
-
-        row_count = int(tree.xpath('count(//table[@class="cv_table"]/tbody/tr)'))
-
-        for i in range(2, row_count + 1):
-            rows = tree.xpath('//table[@class="cv_table"]/tbody/tr[' + str(i) + ']')
             for row in rows:
-                try:
-                    td = row.xpath('./td[1]')
-                    return_list[idx][7] = int(td[0].text)
-                    td = row.xpath('./td[3]')
-                    return_list[idx][1] = float(td[0].text)
-                    td = row.xpath('./td[4]')
-                    return_list[idx][2] = float(td[0].text)
-                    td = row.xpath('./td[5]')
-                    return_list[idx][4] = datetime.strptime(td[0].text, "%d.%m.%Y")
-                except Exception as e:
-                    logger.error(e)
-                    return_list[idx] = None
-            idx += 1
+                rate_type = row.xpath('.//td/span/strong')
+                if len(rate_type) > 0:
+                    rate_type_s = rate_type[0].text
+                    # logger.debug(rate_type_s)
+                    # logger.debug(rate_type_for_source)
 
-        for cur_el in currency_dict:
-            for res_el in return_list:
-                if cur_el == res_el[6] and not currency_dict.get(cur_el)[1]:
-                    return_list.remove(res_el)
-                    break
+                if rate_type_s == config.RATES_TYPES[rate_type_for_source]:
+                    cur_row_list = tree.xpath('//table[@class="cv_table"]/tbody//tr[ ' + str(elem) + ']/th/text()')
+                    # logger.debug("cur_row_list is:")
+                    # logger.debug(cur_row_list)
+                    # logger.debug("elem is:")
+                    # logger.debug(elem)
 
-#        logger.info(return_list)
-        if return_list not is None:
+                    if len(cur_row_list) > 0:
+                        cur_row = ''.join(cur_row_list[0].split())
+                        # logger.debug("cur_row is:")
+                        # logger.debug(cur_row)
+                        # logger.debug("currencies_list is:")
+                        # logger.debug(currencies_list)
+
+                        if cur_row in currencies_list:
+                            # logger.debug("cur_row")
+                            # logger.debug(cur_row)
+                            currency_id = cur_row
+                            tds = row.xpath('.//td[text()]')
+                            if len(tds) == 5:  # 5 elements in entire row
+                                try:
+                                    quant = int(tds[0].text)
+                                    buy_value = float(tds[2].text)
+                                    sell_value = float(tds[3].text)
+                                    rate_datetime = datetime.strptime(tds[4].text, "%d.%m.%Y")
+
+                                    return_list.append([self.loader_name, buy_value, sell_value, avrg_value,
+                                                        rate_datetime, config.CUR_KZT, currency_id, quant])
+
+                                    # logger.debug(return_list)
+
+                                except Exception as e:
+                                    logger.error(e)
+                                    return None
+                            else:
+                                logger.error("Found nothing while parsing")
+                                return None
+        if return_list is not None:
+            logger.debug("return_list after parsing is:")
+            logger.debug(return_list)
             return return_list
         return None
-
-    def saveRatesData(self, parsedData):
-#        logger.info("We will ask to insert the next data:")
-#        logger.info(parsedData)
-        super().saveRatesData(parsedData)

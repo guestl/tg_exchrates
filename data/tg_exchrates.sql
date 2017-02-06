@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.1.1 on Ср фев 1 23:08:19 2017
+-- File generated with SQLiteStudio v3.1.1 on Пн фев 6 22:25:37 2017
 --
 -- Text encoding used: UTF-8
 --
@@ -30,6 +30,19 @@ CREATE TABLE currency (
                           UNIQUE
                           NOT NULL,
     LABEL_ID VARCHAR (15) NOT NULL
+);
+
+
+-- Table: global_variables
+DROP TABLE IF EXISTS global_variables;
+
+CREATE TABLE global_variables (
+    ID       INTEGER      PRIMARY KEY AUTOINCREMENT
+                          NOT NULL
+                          UNIQUE,
+    IDX_TYPE VARCHAR (20) UNIQUE
+                          NOT NULL,
+    TEXT     VARCHAR (20) NOT NULL
 );
 
 
@@ -119,16 +132,18 @@ CREATE TABLE rates (
 DROP TABLE IF EXISTS rates_sources;
 
 CREATE TABLE rates_sources (
-    ID       VARCHAR (10) PRIMARY KEY
-                          NOT NULL
-                          UNIQUE,
-    LABEL_ID VARCHAR (15) NOT NULL,
-    STATE_ID              REFERENCES state (ID) ON DELETE RESTRICT
-                                                ON UPDATE CASCADE
-                          NOT NULL,
-    ACTIVE   BOOLEAN      NOT NULL
-                          DEFAULT True,
-    DOMAIN   VARCHAR (50) NOT NULL
+    ID        VARCHAR (15) PRIMARY KEY
+                           NOT NULL
+                           UNIQUE,
+    LABEL_ID  VARCHAR (15) NOT NULL,
+    STATE_ID               REFERENCES state (ID) ON DELETE RESTRICT
+                                                 ON UPDATE CASCADE
+                           NOT NULL,
+    ACTIVE    BOOLEAN      NOT NULL
+                           DEFAULT True,
+    DOMAIN    VARCHAR (50) NOT NULL,
+    RATE_TYPE              REFERENCES global_variables (IDX_TYPE) ON DELETE RESTRICT
+                                                                  ON UPDATE CASCADE
 );
 
 
@@ -237,6 +252,14 @@ CREATE UNIQUE INDEX idx_main ON rates (
     CUR_ID_FROM,
     CUR_ID_TO,
     QUANT
+);
+
+
+-- Index: idx_type
+DROP INDEX IF EXISTS idx_type;
+
+CREATE UNIQUE INDEX idx_type ON global_variables (
+    IDX_TYPE
 );
 
 
