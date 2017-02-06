@@ -19,24 +19,24 @@ logger.setLevel(logging.ERROR)
 
 class Loader_KZ_bai_alfa(Loader_def_KZ_bai):
     """Load and parse data from KKB (exchange points)
-    
+  
     methods:
         loadDailyData - load rates data for a specific date
         parseDailyData - parse loaded rates data
         saveRatesData - save parsed data to database
     """
 
-    def __init__(self, loader_name = config.RATE_SCR_KZ_ALFA):
+    def __init__(self, loader_name=config.RATE_SCR_KZ_ALFA):
         self.url = 'http://bai.kz/bank/alfa-bank/kursy/'
 
         super().__init__(loader_name, self.url)
 
     def loadDailyData(self, dateForLoad):
         """Download daily currency exchange rates data from specific url
-        
+
         Arguments:
             dateForLoad {Date} -- [Date for load]
-        
+
         Returns:
             [string] -- [return context of web page with exchange rates or 'None']
         """
@@ -44,7 +44,7 @@ class Loader_KZ_bai_alfa(Loader_def_KZ_bai):
 
     def parseDailyData(self, dataForParse):
         """Parse downloaded data
-        
+
         Arguments:
             dataForParse {string} -- [String with data for parsing]
 

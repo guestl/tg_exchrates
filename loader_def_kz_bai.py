@@ -107,15 +107,18 @@ class Loader_def_KZ_bai(loader_default):
         for i in range(2, row_count + 1):
             rows = tree.xpath('//table[@class="cv_table"]/tbody/tr[' + str(i) + ']')
             for row in rows:
-                # TODO: try
-                td = row.xpath('./td[1]')
-                return_list[idx][7] = int(td[0].text)
-                td = row.xpath('./td[3]')
-                return_list[idx][1] = float(td[0].text)
-                td = row.xpath('./td[4]')
-                return_list[idx][2] = float(td[0].text)
-                td = row.xpath('./td[5]')
-                return_list[idx][4] = datetime.strptime(td[0].text, "%d.%m.%Y")
+                try:
+                    td = row.xpath('./td[1]')
+                    return_list[idx][7] = int(td[0].text)
+                    td = row.xpath('./td[3]')
+                    return_list[idx][1] = float(td[0].text)
+                    td = row.xpath('./td[4]')
+                    return_list[idx][2] = float(td[0].text)
+                    td = row.xpath('./td[5]')
+                    return_list[idx][4] = datetime.strptime(td[0].text, "%d.%m.%Y")
+                except Exception as e:
+                    logger.error(e)
+                    return_list[idx] = None
             idx += 1
 
         for cur_el in currency_dict:
@@ -125,7 +128,7 @@ class Loader_def_KZ_bai(loader_default):
                     break
 
 #        logger.info(return_list)
-        if return_list:
+        if return_list not is None:
             return return_list
         return None
 
