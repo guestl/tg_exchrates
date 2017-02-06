@@ -12,7 +12,7 @@ import logging
 #import loader_db_helper
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logger.setLevel(config.LOGGER_LEVEL)
 
 
 class Loader_KZ_NB(loader_default):
@@ -119,9 +119,3 @@ class Loader_KZ_NB(loader_default):
         if return_list:
             return return_list
         return None
-
-    def saveRatesData(self, parsedData):
-#        logger.info("We will ask to insert the next data:")
-#        logger.info(parsedData)
-
-        super().saveRatesData(parsedData)

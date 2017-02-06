@@ -14,7 +14,7 @@ import logging
 #import loader_db_helper
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.ERROR)
+logger.setLevel(config.LOGGER_LEVEL)
 
 
 class MyHTMLParser(HTMLParser):
@@ -156,8 +156,3 @@ class Loader_KZ_KKB_Excghp(loader_default):
         if return_list:
             return return_list
         return None
-
-    def saveRatesData(self, parsedData):
-        logger.info("We will ask to insert the next data:")
-        logger.info(parsedData)
-        super().saveRatesData(parsedData)

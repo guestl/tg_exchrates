@@ -13,6 +13,9 @@ from loader_kz_nb import Loader_KZ_NB
 from loader_kz_kkb_exchp import Loader_KZ_KKB_Excghp
 from loader_kz_kkb_cards import Loader_KZ_KKB_cards
 from loader_kz_bai_alfa import Loader_KZ_bai_alfa
+from loader_kz_bai_halyk_cash import Loader_KZ_bai_halyk_cash
+from loader_kz_bai_halyk_cards import Loader_KZ_bai_halyk_cards
+
 import config
 
 
@@ -26,7 +29,8 @@ class Test_Loader:
         self.kz_kkber_ldr = Loader_KZ_KKB_Excghp()
         self.kz_kkbcrd_ldr = Loader_KZ_KKB_cards()
         self.kz_bai_alfa_ldr = Loader_KZ_bai_alfa()
-        self.kz_bai_halyk_ldr
+        self.kz_bai_halyk_cash_ldr = Loader_KZ_bai_halyk_cash()
+        self.kz_bai_halyk_cards_ldr = Loader_KZ_bai_halyk_cards()
 
     def teardown(self):
         print("TEAR DOWN!")
@@ -74,9 +78,10 @@ class Test_Loader:
         file = codecs.open("tests\\baikz alfa.html", 'r', 'utf-8')
         dataForParse = file.read()
 
-        assert self.kz_bai_alfa_ldr.parseDailyData(dataForParse) == [['KZ_ALFA', 326.0, 328.0, 0, datetime.datetime(2017, 1, 30, 0, 0), 
-        'KZT', 'USD', 1], ['KZ_ALFA', 347.5, 351.5, 0, datetime.datetime(2017, 1, 30, 0, 0), 'KZT', 'EUR', 1], ['KZ_ALFA', 5.38, 5.46, 0, 
-        datetime.datetime(2017, 1, 30, 0, 0), 'KZT', 'RUB', 1]]
+        assert self.kz_bai_alfa_ldr.parseDailyData(dataForParse) == [['KZ_ALFA', 326.0, 328.0, 0, 
+                datetime.datetime(2017, 1, 30, 0, 0), 'KZT', 'USD', 1], ['KZ_ALFA', 347.5, 351.5, 0, 
+                datetime.datetime(2017, 1, 30, 0, 0), 'KZT', 'EUR', 1], ['KZ_ALFA', 5.38, 5.46, 0, 
+                datetime.datetime(2017, 1, 30, 0, 0), 'KZT', 'RUB', 1]]
 
     def test_getting_currency_list_as_separate_function(self):
         currency_list = ['EUR', 'USD', 'RUB', 'CHF', 'GBP', 'KGS']
@@ -89,11 +94,25 @@ class Test_Loader:
         assert loaded_domain == domain
 
     def test_getting_halyk_cash(self):
-        pass
+        file = codecs.open("tests\\baikz halyk.html", 'r', 'utf-8')
+        dataForParse = file.read()
+
+        assert self.kz_bai_halyk_cash_ldr.parseDailyData(dataForParse) == [['KZ_HALYK_CASH', 320.52, 326.51, 0,
+                    datetime.datetime(2017, 2, 4, 0, 0), 'KZT', 'USD', 1], ['KZ_HALYK_CASH', 345, 351, 0,
+                    datetime.datetime(2017, 2, 4, 0, 0), 'KZT', 'EUR', 1], ['KZ_HALYK_CASH', 5.3, 5.6, 0,
+                    datetime.datetime(2017, 2, 4, 0, 0), 'KZT', 'RUB', 1]]
 
     def test_getting_halyk_card(self):
-        pass
- 
+        file = codecs.open("tests\\baikz halyk.html", 'r', 'utf-8')
+        dataForParse = file.read()
+
+        assert self.kz_bai_halyk_cards_ldr.parseDailyData(dataForParse) == [['KZ_HALYK_CRD', 320.26, 326.74, 0,
+                        datetime.datetime(2017, 2, 4, 0, 0), 'KZT', 'USD', 1], ['KZ_HALYK_CRD', 343.9, 350.84, 0,
+                        datetime.datetime(2017, 2, 4, 0, 0), 'KZT', 'EUR', 1], ['KZ_HALYK_CRD', 5.3692, 5.5328, 0,
+                        datetime.datetime(2017, 2, 4, 0, 0), 'KZT', 'RUB', 1], ['KZ_HALYK_CRD', 399.34, 407.4, 0,
+                        datetime.datetime(2017, 2, 4, 0, 0), 'KZT', 'GBP', 1], ['KZ_HALYK_CRD', 327.92, 321.42, 0,
+                        datetime.datetime(2017, 2, 4, 0, 0), 'KZT', 'CHF', 1]]
+
 
 if __name__ == '__main__':
     nose.main()
