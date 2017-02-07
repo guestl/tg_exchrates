@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# helper for work with database
 import config
-#import loader_db_helper
 from loader_def_class import loader_default
 
 import io

@@ -1,8 +1,17 @@
 # -*- coding: utf-8 -*-
 
-# run me as python loader_main.py -d (Get-Date -Year 2017 -Month 01 -Day 11 -UFormat "%d/%m/%Y")
+# run me in windows as python loader_main.py -d (Get-Date -Year 2017 -Month 01 -Day 11 -UFormat "%d/%m/%Y")
 
-# helper for work with database
+
+import logging
+import logging.config
+import datetime
+import argparse
+
+import os
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 import config
 from throttle import Throttle
 
@@ -14,12 +23,6 @@ from loader_kz_bai_kkb_cash import Loader_KZ_bai_kkb_cash
 from loader_kz_bai_kkb_cards import Loader_KZ_bai_kkb_cards
 
 #from localizator import localizator
-
-import logging
-import logging.config
-#from datetime import datetime
-import datetime
-import argparse
 
 logging.config.fileConfig('logging_loader.ini', disable_existing_loggers=False)
 

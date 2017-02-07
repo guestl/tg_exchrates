@@ -6,11 +6,14 @@ import sqlite3
 import config
 
 import logging
-
 import datetime
+import os
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(config.LOGGER_LEVEL)
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
 class db_loader_helper:
@@ -22,8 +25,12 @@ class db_loader_helper:
     """
     def __init__(self, dbname=config.dbname):
         self.dbname = dbname
-        self.connection = sqlite3.connect(dbname)
-        self.cursor = self.connection.cursor()
+        try:
+            self.connection = sqlite3.connect(dbname)
+            self.cursor = self.connection.cursor()
+        except Exception as e:
+            logger.error(e)
+            raise e
 
     # I got this piece of code from
     #    http://stackoverflow.com/questions/5266430/how-to-see-the-real-sql-query-in-python-cursor-execute"
