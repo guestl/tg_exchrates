@@ -7,11 +7,11 @@ import config
 from throttle import Throttle
 
 from loader_kz_nb import Loader_KZ_NB
-from loader_kz_kkb_exchp import Loader_KZ_KKB_Excghp
-from loader_kz_kkb_cards import Loader_KZ_KKB_cards
 from loader_kz_bai_alfa import Loader_KZ_bai_alfa
 from loader_kz_bai_halyk_cash import Loader_KZ_bai_halyk_cash
 from loader_kz_bai_halyk_cards import Loader_KZ_bai_halyk_cards
+from loader_kz_bai_kkb_cash import Loader_KZ_bai_kkb_cash
+from loader_kz_bai_kkb_cards import Loader_KZ_bai_kkb_cards
 
 #from localizator import localizator
 
@@ -33,16 +33,16 @@ parser.add_argument('-d', help="Date in format dd/mm/YYYY. If empty the script w
 
 args = parser.parse_args()
 
-#logging.info("args is: ")
-#logging.info(args)
+# logging.info("args is: ")
+# logging.info(args)
 
 
 date_for_load = datetime.datetime.now()
 if args.d:
     try:
         args_date = datetime.datetime.strptime(args.d, "%d/%m/%Y")
-        logging.info("args date is: ")
-        logging.info(args_date)
+        # logging.debug("args date is: ")
+        # logging.debug(args_date)
         date_for_load = args_date
     except Exception as e:
         logging.error("Invalid command line parameter:")
@@ -55,14 +55,15 @@ throttle = Throttle(config.delay)
 
 # create new loader instance
 ldr_kz_nb = Loader_KZ_NB()
-ldr_kz_kkb_exchp = Loader_KZ_KKB_Excghp()
-ldr_kz_kkb_cards = Loader_KZ_KKB_cards()
 ldr_kz_bai_alfa = Loader_KZ_bai_alfa()
 kz_bai_halyk_cash_ldr = Loader_KZ_bai_halyk_cash()
 kz_bai_halyk_cards_ldr = Loader_KZ_bai_halyk_cards()
+kz_bai_kkb_cash_ldr = Loader_KZ_bai_kkb_cash()
+kz_bai_kkb_cards_ldr = Loader_KZ_bai_kkb_cards()
 
 # here is the place for adding an instance into the loaders list
-loaders_list = [ldr_kz_nb, ldr_kz_kkb_exchp, ldr_kz_kkb_cards, ldr_kz_bai_alfa, kz_bai_halyk_cash_ldr, kz_bai_halyk_cards_ldr]
+loaders_list = [ldr_kz_nb, ldr_kz_bai_alfa, kz_bai_halyk_cash_ldr, kz_bai_halyk_cards_ldr,
+                kz_bai_kkb_cash_ldr, kz_bai_kkb_cards_ldr]
 
 
 loadedData = ''

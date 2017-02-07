@@ -146,8 +146,8 @@ class db_loader_helper:
 
     # TODO: проверить, если на входе один список, а не список списков
     def add_currency_rates_data(self, parsed_data):
-        logger.info("add_currency_rates_data -> parsed data is ")
-        logger.info(parsed_data)
+        logger.debug("add_currency_rates_data -> parsed data is ")
+        logger.debug(parsed_data)
 
         try:
             sql_text = "REPLACE INTO rates (SRC_ID, BUY_VALUE, SELL_VALUE, AVRG_VALUE, " \
@@ -160,12 +160,12 @@ class db_loader_helper:
             logger.error(sql_text)
             logger.error(parsed_data)
 
-        logger.info("Commit done")
+        logger.debug("Commit done")
 
     def update_loader_log(self, src_id):
 
-        logger.info("add_loader log data for source ")
-        logger.info(src_id)
+        logger.debug("add_loader log data for source ")
+        logger.debug(src_id)
 
         try:
             sql_text = "INSERT INTO log_load (SRC_ID) VALUES (?)"
@@ -176,7 +176,7 @@ class db_loader_helper:
             raise e
             logger.error(self.check_sql_string(sql_text, (src_id, )))
 
-        logger.info("Commit done")
+        logger.debug("Commit done")
 
     def add_cache(self, data_for_cache):
         try:
@@ -189,7 +189,7 @@ class db_loader_helper:
             logger.error(sql_text)
             logger.error(data_for_cache)
 
-        logger.info("Commit done")
+        logger.debug("Commit done")
 
     def check_and_load_cache(self, src_id, req_date):
         try:
@@ -209,15 +209,15 @@ class db_loader_helper:
         if row is not None:
             # we have a cache!
             cache = row[0]
- #           logger.info(cache)
+ #           logger.debug(cache)
             cache_datetime = datetime.datetime.strptime(row[1], '%Y-%m-%d %H:%M:%S')
 
-            logger.info('cache_datetime is ')
-            logger.info(cache_datetime)
-            logger.info(datetime.datetime.utcnow())
-            logger.info((datetime.datetime.utcnow() - cache_datetime).total_seconds())
-            logger.info(config.CAСHE_LIVE_TIME)
-            logger.info((datetime.datetime.utcnow() - cache_datetime).total_seconds() > config.CAСHE_LIVE_TIME)
+            logger.debug('cache_datetime is ')
+            logger.debug(cache_datetime)
+            logger.debug(datetime.datetime.utcnow())
+            logger.debug((datetime.datetime.utcnow() - cache_datetime).total_seconds())
+            logger.debug(config.CAСHE_LIVE_TIME)
+            logger.debug((datetime.datetime.utcnow() - cache_datetime).total_seconds() > config.CAСHE_LIVE_TIME)
 
             if (datetime.datetime.utcnow() - cache_datetime).total_seconds() > config.CAСHE_LIVE_TIME:
                 return None

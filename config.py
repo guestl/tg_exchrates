@@ -1,6 +1,6 @@
 import logging
 
-LOGGER_LEVEL = logging.DEBUG
+LOGGER_LEVEL = logging.ERROR
 
 dbname = 'tg_exchrates.sqlite'
 
@@ -25,11 +25,11 @@ CUR_KZT = 'KZT'
 RATES_TYPES = {'CASH_KZ_BAI': 'наличные', 'CARD_KZ_BAI': 'безналичные'}
 
 RATE_SCR_KZ_NB = 'KZ_NB'
-RATE_SCR_KZ_KKB_EXCHR = 'KZ_KKBER'
-RATE_SCR_KZ_KKB_CARDS = 'KZ_KKBCRD'
 RATE_SCR_KZ_ALFA = 'KZ_ALFA'
 RATE_SCR_KZ_HALYK_CASH = 'KZ_HALYK_CASH'
 RATE_SCR_KZ_HALYK_CARDS = 'KZ_HALYK_CRD'
+RATE_SCR_KZ_KKB_CASH = 'KZ_KKB_CASH'
+RATE_SCR_KZ_KKB_CRDS = 'KZ_KKB_CRD'
 
 
 USER_AGENTS = ['MMozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1',

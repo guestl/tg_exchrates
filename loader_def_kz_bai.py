@@ -50,6 +50,7 @@ class Loader_def_KZ_bai(loader_default):
         cachedData = self.check_cache(self.daily_date)
 
         if cachedData is None:
+            logger.debug("There is no cache")
             try:
                 req = requests.post(self.url, data={'data': str_date_for_load}, headers=self.headers)
                 loadedData = req.text
@@ -60,6 +61,7 @@ class Loader_def_KZ_bai(loader_default):
                 logger.error(e)
                 loadedData = None
         else:
+            logger.debug("We have a cache")
             loadedData = cachedData
 
         if loadedData and cachedData is None:
@@ -97,7 +99,7 @@ class Loader_def_KZ_bai(loader_default):
             logger.error(e)
             return None
 
-        # logger.debug(counter)
+        logger.debug(counter)
         for elem in range(1, counter + 1):
             rows = tree.xpath('//table[@class="cv_table"]/tbody/tr[' + str(elem) + ']')
 
@@ -105,8 +107,8 @@ class Loader_def_KZ_bai(loader_default):
                 rate_type = row.xpath('.//td/span/strong')
                 if len(rate_type) > 0:
                     rate_type_s = rate_type[0].text
-                    # logger.debug(rate_type_s)
-                    # logger.debug(rate_type_for_source)
+                    logger.debug(rate_type_s)
+                    logger.debug(rate_type_for_source)
 
                 if rate_type_s == config.RATES_TYPES[rate_type_for_source]:
                     cur_row_list = tree.xpath('//table[@class="cv_table"]/tbody//tr[ ' + str(elem) + ']/th/text()')
