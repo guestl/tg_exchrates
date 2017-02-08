@@ -82,7 +82,3 @@ for ldr in loaders_list:
     if parsedData:
         ldr.saveRatesData(parsedData)
     throttle.wait(ldr.get_domain())
-
-# loc = localizator("en-us")
-
-# logging.info(loc.get_translated_labels(["EUR","LBL000002", 12.4,"LBL000001", "LBL000005"]))

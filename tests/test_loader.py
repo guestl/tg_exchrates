@@ -18,8 +18,9 @@ import config
 
 
 class Test_Loader:
-    def setup(self):
-        print("SETUP!")
+    @classmethod
+    def setup_class(self):
+        print("Setup class Test_Loader!")
         os.chdir("D:\\Boris\\Documents\\Projects\\Py\\tg_exchrates\\")
         print("work dir is", os.getcwd())
 
@@ -28,8 +29,9 @@ class Test_Loader:
         self.kz_bai_halyk_cash_ldr = Loader_KZ_bai_halyk_cash()
         self.kz_bai_halyk_cards_ldr = Loader_KZ_bai_halyk_cards()
 
-    def teardown(self):
-        print("TEAR DOWN!")
+    @classmethod
+    def teardown_class(self):
+        print("Tear down class Test_Loader!")
 
     def test_case1_KZ_NB_LoaderName(self):
         assert self.kz_nb_ldr.loader_name == config.RATE_SCR_KZ_NB
@@ -44,7 +46,6 @@ class Test_Loader:
             'KZT', 'KGS', 1), ('KZ_NB', 0, 0, 4.63, datetime.datetime(2016, 2, 23, 0, 0),
             'KZT', 'RUB', 1), ('KZ_NB', 0, 0, 498.6, datetime.datetime(2016, 2, 23, 0, 0),
             'KZT', 'GBP', 1), ('KZ_NB', 0, 0, 354.14, datetime.datetime(2016, 2, 23, 0, 0), 'KZT', 'CHF', 1)]
-
 
     def test_case1_KZ_bai_alfa_LoaderName(self):
         assert self.kz_bai_alfa_ldr.loader_name == config.RATE_SCR_KZ_ALFA

@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
 # helper for work with database
-import sqlite3
-
 import config
 
+import sqlite3
 import logging
 import datetime
 import os
@@ -41,7 +40,7 @@ class db_tg_exchrates_helper:
         for v in values:
             sql_text = sql_text.replace(unique, repr(v), 1)
         return sql_text
-    """
+
     def get_countries_list(self):
         result = []
         try:
@@ -54,34 +53,6 @@ class db_tg_exchrates_helper:
         if self.cursor:
             for row in self.cursor:
                 result.append(row[0])
-        return result
-    """
-
-    def get_rate_src_type_string(self, src_id):
-        """Get rate sources type for specific source
-
-        Get type of rate source - cash rate or cards rate. We will compare these values with dict config.RATES_TYPES
-
-        Returns:
-            list -- list of IDX_TYPE fields from "global_variables" table
-        """
-        result = ''
-        # logger.debug(src_id)
-
-        try:
-            sql_text = 'select gv.IDX_TYPE  ' \
-                       'from global_variables gv, rates_sources rs ' \
-                       'where rs.RATE_TYPE = gv.IDX_TYPE and ' \
-                       'rs.ID = ?'
-            self.cursor.execute(sql_text, (src_id, ))
-        except Exception as e:
-            logger.error(e)
-            logger.error(sql_text)
-
-        if self.cursor:
-            for row in self.cursor:
-                # logger.debug(row)
-                result = row[0]
         return result
 
     def get_languages_list(self):

@@ -4,16 +4,6 @@ LOGGER_LEVEL = logging.ERROR
 
 dbname = 'tg_exchrates.sqlite'
 
-
-LABEL_ID = 'LBL'
-DEF_LANG = 'ru-ru'
-
-# delay time in seconds
-delay = 20
-
-# caсhe live time in seconds
-CAСHE_LIVE_TIME = 1800
-
 cur_eur = 'EUR'
 cur_usd = 'USD'
 cur_rub = 'RUB'
@@ -21,6 +11,18 @@ cur_gbp = 'GBP'
 cur_chf = 'CHF'
 cur_cny = 'CNY'
 CUR_KZT = 'KZT'
+
+LABEL_ID = 'LBL'
+
+DEF_LANG = 'ru-ru'
+DEF_STATE = 'KZ'
+DEF_CURRENCIES_LIST = [cur_usd, cur_rub, cur_eur]
+
+# delay time in seconds
+delay = 20
+
+# caсhe live time in seconds
+CAСHE_LIVE_TIME = 1800
 
 RATES_TYPES = {'CASH_KZ_BAI': 'наличные', 'CARD_KZ_BAI': 'безналичные'}
 
