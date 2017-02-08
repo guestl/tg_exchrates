@@ -31,15 +31,38 @@ class db_tg_exchrates_helper:
             logger.error(e)
             raise e
 
-    # I got this piece of code from
-    #    http://stackoverflow.com/questions/5266430/how-to-see-the-real-sql-query-in-python-cursor-execute"
-    # it doesn't work pretty good, but I can see a sql text and it's enough for me
     def check_sql_string(self, sql_text, values):
+        """Return generated SQL query text with passed values
+
+        I got this piece of code from
+            http://stackoverflow.com/questions/5266430/how-to-see-the-real-sql-query-in-python-cursor-execute"
+            it doesn't work pretty good, but I can see a sql text and it's enough for me
+
+        Arguments:
+            sql_text {string} -- [text of query for checking]
+            values {list} -- [list of arguments]
+
+        Returns:
+            [string] -- [text of query]
+        """
         unique = "%PARAMETER%"
         sql_text = sql_text.replace("?", unique)
         for v in values:
             sql_text = sql_text.replace(unique, repr(v), 1)
         return sql_text
+
+    def create_new_user(self, s_def_data):
+        try:
+            sql_text = "REPLACE INTO cache_rates (SRC_ID, REQUESTED_RATE_DATE, CACHE_DATA) VALUES (?,?,?)"
+            self.connection.executemany(sql_text, (s_def_data,))
+
+            self.connection.commit()
+        except Exception as e:
+            logger.error(e)
+            logger.error(sql_text)
+            logger.error(s_def_data)
+
+        logger.debug("Commit done")
 
     def get_countries_list(self):
         result = []
@@ -121,24 +144,6 @@ class db_tg_exchrates_helper:
                 domains[row[0]] = datetime.datetime.strptime(row[1], '%Y-%m-%d %H:%M:%S')
 
         return domains
-
-    # TODO: проверить, если на входе один список, а не список списков
-    def add_currency_rates_data(self, parsed_data):
-        logger.debug("add_currency_rates_data -> parsed data is ")
-        logger.debug(parsed_data)
-
-        try:
-            sql_text = "REPLACE INTO rates (SRC_ID, BUY_VALUE, SELL_VALUE, AVRG_VALUE, " \
-                       "RATE_DATETIME, CUR_ID_FROM, CUR_ID_TO, QUANT) VALUES (?,?,?,?,?,?,?,?)"
-            self.connection.executemany(sql_text, parsed_data)
-
-            self.connection.commit()
-        except Exception as e:
-            logger.error(e)
-            logger.error(sql_text)
-            logger.error(parsed_data)
-
-        logger.debug("Commit done")
 
     def update_loader_log(self, src_id):
 

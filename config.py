@@ -14,16 +14,6 @@ CUR_KZT = 'KZT'
 
 LABEL_ID = 'LBL'
 
-DEF_LANG = 'ru-ru'
-DEF_STATE = 'KZ'
-DEF_CURRENCIES_LIST = [cur_usd, cur_rub, cur_eur]
-
-# delay time in seconds
-delay = 20
-
-# caсhe live time in seconds
-CAСHE_LIVE_TIME = 1800
-
 RATES_TYPES = {'CASH_KZ_BAI': 'наличные', 'CARD_KZ_BAI': 'безналичные'}
 
 RATE_SCR_KZ_NB = 'KZ_NB'
@@ -33,6 +23,18 @@ RATE_SCR_KZ_HALYK_CARDS = 'KZ_HALYK_CRD'
 RATE_SCR_KZ_KKB_CASH = 'KZ_KKB_CASH'
 RATE_SCR_KZ_KKB_CRDS = 'KZ_KKB_CRD'
 
+DEF_SETTINGS_COUNT = 3
+
+DEF_LANG = 'ru-ru'
+DEF_STATE = 'KZ'
+DEF_CURRENCIES_LIST = [cur_usd, cur_rub, cur_eur]
+DEF_USER_SETTING = [DEF_LANG, DEF_STATE, RATE_SCR_KZ_NB, DEF_CURRENCIES_LIST]
+
+# delay time in seconds
+delay = 20
+
+# caсhe live time in seconds
+CAСHE_LIVE_TIME = 1800
 
 USER_AGENTS = ['MMozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1',
                'Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.64 Safari/537.36',

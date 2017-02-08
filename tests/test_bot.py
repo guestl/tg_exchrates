@@ -2,8 +2,8 @@
 from nose.tools import *
 
 import os
-#import sys
-#import io
+# import sys
+# import io
 import codecs
 import datetime
 
@@ -25,9 +25,20 @@ class Test_Bot:
     def teardown_class(self):
         print("Tear down class test_bot!")
 
-    def test_get_default_settings(self):
+    def test_generation_of_default_user_data(self):
+        def_data = [[self.test_uid, config.DEF_LANG, config.DEF_STATE, config.RATE_SCR_KZ_NB, config.DEF_CURRENCIES_LIST],
+                    [self.test_uid, config.DEF_LANG, config.DEF_STATE, config.RATE_SCR_KZ_NB, config.DEF_CURRENCIES_LIST],
+                    [self.test_uid, config.DEF_LANG, config.DEF_STATE, config.RATE_SCR_KZ_NB, config.DEF_CURRENCIES_LIST]]
+
+        gen_data = self.tg_helper.bf_generate_user_data(self.test_uid)
+        assert gen_data == def_data
+
+    def test_get_def_settings_for_user(self):
         self.tg_helper.bf_set_user_setting(self.test_uid)
-        assert self.tg_helper.bf_get_user_setting() == [config.DEF_STATE, config.DEF_LANG, config.DEF_CURRENCIES_LIST]
+        assert self.tg_helper.bf_get_user_setting(self.test_uid) == [self.test_uid, config.DEF_STATE,
+                                                                     config.DEF_LANG, config.RATE_SCR_KZ_NB,
+                                                                     config.DEF_CURRENCIES_LIST]
+
 
 if __name__ == '__main__':
     nose.main()
